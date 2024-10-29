@@ -49,10 +49,14 @@ func (hand *Handler) Handle(args []string) error {
 	}
 	result := hand.calculator.Calculate(a, b)
 	_, err = fmt.Fprint(hand.stdout, result)
+	if err != nil {
+		return fmt.Errorf("%w: '%s'", errOutputFailure, args[0])
+	}
 	return err
 }
 
 var (
 	errWrongArgCount   = errors.New("usage: calculator <a> <b>")
 	errInvalidArgument = errors.New("invalid argument")
+	errOutputFailure   = errors.New("output failure")
 )
